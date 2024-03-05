@@ -32,7 +32,7 @@ extern void kernelvec(); // 在kernelvec.S中声明
 __attribute__ ((aligned (16))) char u_stack[4096];
 
 // 启动操作系统
-void start(){
+__attribute__((noreturn)) void start(){
 
     // 设置中断向量地址
     w_mtvec((MXLEN_T)kernelvec);
@@ -52,5 +52,6 @@ void start(){
 
     w_sp((MXLEN_T)u_stack);
     asm volatile("mret");
+    for(;;);
 }
 
