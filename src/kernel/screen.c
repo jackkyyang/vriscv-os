@@ -40,7 +40,7 @@ typedef struct frm_buf_h_t
 }FrameBufferH;
 
 void putc_screen(const char c){
-    FrameBufferH* screen_header = (volatile FrameBufferH*)(SCR_BASE);
+    FrameBufferH* screen_header = (FrameBufferH*)(SCR_BASE);
     uint8_t* screen_frm_buf_base = (uint8_t*)((SCR_BASE) + sizeof(FrameBufferH));
 
     screen_header->frm_buf_lock = 1;

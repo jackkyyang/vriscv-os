@@ -75,9 +75,9 @@ void kerneltrap() {
   int which_dev = 0;
   MXLEN_T mepc = r_mepc();
   MXLEN_T mstatus = r_mstatus();
-  MXLEN_T mcause = r_mcause();
+  // MXLEN_T mcause = r_mcause();
 
-  if((mstatus & MSTATUS_MPP_MASK) == 3)
+  if((mstatus & MSTATUS_MPP_MASK) == MSTATUS_MPP_M)
     panic("kerneltrap: not from machine mode");
 
   // 处理中断时必须关闭中断使能

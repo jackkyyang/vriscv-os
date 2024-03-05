@@ -25,6 +25,7 @@ SOFTWARE.
 #include "typedef.h"
 #include "mem_layout.h"
 #include "kbd.h"
+#include "print.h"
 
 
 // 硬件约定好的数据结构
@@ -46,15 +47,15 @@ void kbd_init(){}
 void kbd_int_proc(){
 
     // 获取键盘缓冲区头的数据结构
-    KeyBoardBufferH* kbd_header = (volatile void*)(KBD_BASE);
-    volatile uint32_t* kbd_data_buf = (volatile void*)(KBD_BASE + sizeof(KeyBoardBufferH));
+    KeyBoardBufferH* kbd_header = (KeyBoardBufferH*)(KBD_BASE);
+    uint32_t* kbd_data_buf = (uint32_t*)(KBD_BASE + sizeof(KeyBoardBufferH));
 
     // 向缓冲区加锁，禁止硬件写入新的值
     kbd_header->kbd_buf_lock = 1;
     __sync_synchronize(); // 确保写成功后才能进行后面的操作
 
     // 获得缓冲区内数据的数量
-    volatile uint32_t kbd_data_num = kbd_header->kbd_data_num;
+    uint32_t kbd_data_num = kbd_header->kbd_data_num;
     __sync_synchronize(); // 确保读成功后才能进行后面的操作
 
     // 处理缓冲区内容

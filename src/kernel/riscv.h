@@ -141,6 +141,11 @@ static inline MXLEN_T r_sp()
   return x;
 }
 
+// // 写入栈指针
+static inline void w_sp(MXLEN_T x) {
+  asm volatile("mv sp, %0" : : "r" (x));
+}
+
 // 获取 time
 static inline MXLEN_T r_time() {
   MXLEN_T x;

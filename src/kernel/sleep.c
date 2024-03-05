@@ -4,7 +4,7 @@
 #include "sleep.h"
 
 void sleep(){
-    MXLEN_T sleep_count = 0;
+    volatile MXLEN_T sleep_count = 0;
     while (1)
     {
         sleep_count ++;

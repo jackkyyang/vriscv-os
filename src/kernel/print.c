@@ -32,7 +32,7 @@ static char digits[] = "0123456789ABCDEF";
 volatile int panicked = 0;
 
 
-static voidputc(int fd, char c) {
+static void putc(int fd, char c) {
   putc_screen(c);
 }
 
