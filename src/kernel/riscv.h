@@ -64,6 +64,8 @@ static inline void mint_off() {
 }
 
 // 获取M模式全局中断使能值
+// 0: mstatus.mie == 0
+// 1: mstatus.mie == 1
 static inline int mint_get() {
   MXLEN_T x = r_mstatus();
   return (x & MSTATUS_MIE) != 0;

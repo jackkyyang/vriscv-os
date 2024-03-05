@@ -22,19 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "typedef.h"
-#include "riscv.h"
-#include "sleep.h"
 
-extern void kernelvec(); // 在kernelvec.S中声明
+#ifndef __PRINT_H__
+#define __PRINT_H__
 
-// 启动操作系统
-void start(){
+void  panic(char*) __attribute__((noreturn));
+void  printf(const char*,...);
 
-    // 设置中断向量地址
-    w_mtvec(kernelvec);
-
-    // 设置推出地址
-    w_mepc((MXLEN_T)sleep);
-}
-
+#endif // __PRINT_H__

@@ -22,19 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+
+#ifndef __SCREEN_H__
+#define __SCREEN_H__
+
 #include "typedef.h"
-#include "riscv.h"
-#include "sleep.h"
 
-extern void kernelvec(); // 在kernelvec.S中声明
+void putc_screen(const char s);
 
-// 启动操作系统
-void start(){
-
-    // 设置中断向量地址
-    w_mtvec(kernelvec);
-
-    // 设置推出地址
-    w_mepc((MXLEN_T)sleep);
-}
-
+#endif // __SCREEN_H__

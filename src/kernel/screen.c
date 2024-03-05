@@ -22,19 +22,35 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "typedef.h"
+#include "screen.h"
 #include "riscv.h"
-#include "sleep.h"
+#include "typedef.h"
+#include "mem_layout.h"
 
-extern void kernelvec(); // 在kernelvec.S中声明
+//帧缓冲区头数据结构
+typedef struct frm_buf_h_t
+{
+    // 软件配置值，如果lock为1，代表软件正在处理数据，不要让设备做内容搬运
+    uint8_t  frm_buf_lock;
+    uint8_t  frm_buf_change; // 0, 没有改变，不需要搬运帧缓冲区
+    uint32_t frm_data_num; // 0, 代表没有有效数据
+    uint16_t screen_width;
+    uint16_t screen_height;
+    uint32_t frame_buf_max_len;
+}FrameBufferH;
 
-// 启动操作系统
-void start(){
+void putc_screen(const char c){
+    FrameBufferH* screen_header = (volatile FrameBufferH*)(SCR_BASE);
+    uint8_t* screen_frm_buf_base = (uint8_t*)((SCR_BASE) + sizeof(FrameBufferH));
 
-    // 设置中断向量地址
-    w_mtvec(kernelvec);
+    screen_header->frm_buf_lock = 1;
+    __sync_synchronize(); // 确保写成功后才能进行后面的操作
 
-    // 设置推出地址
-    w_mepc((MXLEN_T)sleep);
+    uint8_t* frm_buf_end = screen_frm_buf_base + screen_header->frm_data_num;
+    *frm_buf_end = c;
+    screen_header->frm_buf_change = 1;
+
+    __sync_synchronize(); // 确保写成功后才能进行后面的操作
+    screen_header->frm_buf_lock = 0;
+
 }
-
