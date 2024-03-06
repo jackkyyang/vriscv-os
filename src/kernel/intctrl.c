@@ -23,38 +23,10 @@ SOFTWARE.
 */
 
 #include "typedef.h"
-#include "riscv.h"
-#include "sleep.h"
+#include "mem_layout.h"
+#include "intctrl.h"
 
-extern void kernelvec(); // 在kernelvec.S中声明
-
-// 为用户模式申请的栈空间
-__attribute__ ((aligned (16))) char u_stack[4096];
-
-// 启动操作系统
-__attribute__((noreturn)) void start(){
-
-    // 设置中断向量地址
-    w_mtvec((MXLEN_T)kernelvec);
-
-
-    // mret需要退回到U模式
-    unsigned long x = r_mstatus();
-    x &= ~MSTATUS_MPP_MASK;
-    x |= MSTATUS_MPP_U;
-    w_mstatus(x);
-
-    // 打开所有中断使能
-    w_mie(0xffff);
-
-    // 退出M模式
-    w_mepc((MXLEN_T)sleep);
-
-    // 退出时先保存内核SP
-    asm volatile("csrw sscratch, sp");
-
-    w_sp((MXLEN_T)u_stack);
-    asm volatile("mret");
-    for(;;);
+void int_clr(MXLEN_T id){
+    MXLEN_T* int_clr_addr = (MXLEN_T*)(INTCTRL_BASE + 4);
+    *int_clr_addr = id;
 }
-

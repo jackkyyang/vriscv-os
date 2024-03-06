@@ -27,6 +27,7 @@ SOFTWARE.
 #include "print.h"
 #include "mem_layout.h"
 #include "kbd.h"
+#include "intctrl.h"
 
 
 // check if it's an external interrupt or software interrupt,
@@ -42,8 +43,10 @@ int devintr()
      (mcause & 0xff) == KBD_INT_ID){
     // this is a machine custom interrupt, defined by platform.
 
-    kbd_int_proc();
+    // 处理前，清理中断值
+    int_clr(KBD_INT_ID);
 
+    kbd_int_proc();
     // the PLIC allows each device to raise at most one
     // interrupt at a time; tell the PLIC the device is
     // now allowed to interrupt again.

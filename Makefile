@@ -87,7 +87,7 @@ $(HEADER_DEP): $(BUILDDIR)/$K/%.d : $K/%.c
         sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
         rm -f $@.$$$$
 
-build: build/kernel
+build: clean build/kernel
 
 # 生成kernel二进制文件
 LDFLAGS = -z max-page-size=4096
