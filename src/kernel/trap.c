@@ -39,7 +39,7 @@ int devintr()
 {
   MXLEN_T mcause = r_mcause();
 
-  if((mcause & 0x8000000000000000L) &&
+  if((mcause >> (MXLEN -1)) &&
      (mcause & 0xff) == KBD_INT_ID){
     // this is a machine custom interrupt, defined by platform.
 

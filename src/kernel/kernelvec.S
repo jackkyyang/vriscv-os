@@ -47,14 +47,14 @@ kernelvec:
         sw t6, 120(sp)
 
         // 恢复内核sp
-        // 将用户sp放入sscratch
-        csrrw sp, sscratch, sp
+        // 将用户sp放入 mscratch
+        csrrw sp, mscratch, sp
         # 进入到中断处理模式
         call kerneltrap
 
         // 恢复用户sp
-        // 将内核sp放入sscratch
-        csrrw sp, sscratch, sp
+        // 将内核sp放入 mscratch
+        csrrw sp, mscratch, sp
 
         # restore registers.
         lw ra, 0(sp)

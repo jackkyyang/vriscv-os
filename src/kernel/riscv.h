@@ -28,6 +28,7 @@ SOFTWARE.
 #include "typedef.h"
 
 typedef uint32_t MXLEN_T;
+#define MXLEN 32
 
 // 读取硬件hart ID
 static inline MXLEN_T r_mhartid() {
