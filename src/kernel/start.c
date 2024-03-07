@@ -51,7 +51,7 @@ __attribute__((noreturn)) void start(){
     w_mepc((MXLEN_T)sleep);
 
     // 退出时先保存内核SP
-    asm volatile("csrw sscratch, sp");
+    asm volatile("csrw mscratch, sp");
 
     w_sp((MXLEN_T)u_stack);
     asm volatile("mret");
