@@ -45,7 +45,7 @@ __attribute__((noreturn)) void start(){
     w_mstatus(x);
 
     // 打开所有中断使能
-    w_mie(0xffff);
+    w_mie(0xffffffff);
 
     // 退出M模式
     w_mepc((MXLEN_T)sleep);
