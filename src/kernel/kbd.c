@@ -66,7 +66,7 @@ void kbd_int_proc(){
     __sync_synchronize();
     kbd_header->kbd_data_num = 0;
     __sync_synchronize();
-    kbd_header->kbd_buf_lock = 1;
+    kbd_header->kbd_buf_lock = 0;
     __sync_synchronize();
 
 }
