@@ -28,8 +28,9 @@ SOFTWARE.
 
 extern void kernelvec(); // 在kernelvec.S中声明
 
-// 为用户模式申请的栈空间
-__attribute__ ((aligned (16))) char u_stack[4096];
+#define U_STACK_DEPTH 4096
+// 为用户模式申请的栈空间, 要求16byte对齐
+__attribute__ ((aligned (16))) char u_stack[U_STACK_DEPTH];
 
 // 启动操作系统
 __attribute__((noreturn)) void start(){
@@ -53,7 +54,9 @@ __attribute__((noreturn)) void start(){
     // 退出时先保存内核SP
     asm volatile("csrw mscratch, sp");
 
-    w_sp((MXLEN_T)u_stack);
+    MXLEN_T u_stack_top = (MXLEN_T)u_stack + U_STACK_DEPTH;
+
+    w_sp(u_stack_top);
     asm volatile("mret");
     for(;;);
 }

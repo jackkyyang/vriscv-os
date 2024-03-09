@@ -61,7 +61,7 @@ void kbd_int_proc(){
     // 处理缓冲区内容
     for (uint32_t i = 0; i < kbd_data_num; i++)
     {
-        printf("Press key: %x",kbd_data_buf[i]);
+        printf("Press key: %x\n",kbd_data_buf[i]);
     }
     __sync_synchronize();
     kbd_header->kbd_data_num = 0;
