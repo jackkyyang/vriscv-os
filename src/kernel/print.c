@@ -115,6 +115,7 @@ void vprintf(int fd, const char *fmt, va_list ap)
   }
 }
 
+// 只能处理以下占位符: %d, %x, %p, %s.
 void printf(const char *fmt, ...)
 {
   va_list ap;

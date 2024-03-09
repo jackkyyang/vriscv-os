@@ -58,10 +58,12 @@ void kbd_int_proc(){
     uint32_t kbd_data_num = kbd_header->kbd_data_num;
     __sync_synchronize(); // 确保读成功后才能进行后面的操作
 
+    printf("Found '%d' kbd_data, ",(int)kbd_data_num);
+
     // 处理缓冲区内容
     for (uint32_t i = 0; i < kbd_data_num; i++)
     {
-        printf("Press key: %x\n",kbd_data_buf[i]);
+        printf("Press key: [0x%x]\n",kbd_data_buf[i]);
     }
     __sync_synchronize();
     kbd_header->kbd_data_num = 0;

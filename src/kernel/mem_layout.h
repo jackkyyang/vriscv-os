@@ -38,6 +38,22 @@ SOFTWARE.
 #ifndef __MEM_LAYOUT_H__
 #define __MEM_LAYOUT_H__
 
+#define MEM1KB    (1U<<10)
+#define MEM1MB    (1U<<20)
+#define MEM4KB    (MEM1KB * 4)
+#define MEM8KB    (MEM1KB * 8)
+#define MEM16KB   (MEM1KB * 16)
+#define MEM64KB   (MEM1KB * 64)
+#define MEM256KB  (MEM1KB * 256)
+#define MEM512KB  (MEM1KB * 512)
+#define MEM128MB  (MEM1MB * 128)
+
+#define DRAM_SIZE MEM128MB
+#define SCR_SIZE  MEM16KB
+#define KBD_SIZE  MEM4KB
+#define ROM_SIZE  MEM8KB
+#define INTCTRL_SIZE  MEM4KB
+
 #define DRAM_BASE 0x80000000
 #define DRAM_END  (DRAM_BASE + DRAM_SIZE - 1)
 

@@ -49,6 +49,7 @@ void putc_screen(const char c){
     uint8_t* frm_buf_end = screen_frm_buf_base + screen_header->frm_data_num;
     *frm_buf_end = c;
     screen_header->frm_data_num += 1;
+    screen_header->frm_data_num &= (SCR_SIZE - 1);
     screen_header->frm_buf_change = 1;
 
     __sync_synchronize(); // 确保写成功后才能进行后面的操作
