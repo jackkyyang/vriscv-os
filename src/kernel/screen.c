@@ -27,6 +27,8 @@ SOFTWARE.
 #include "typedef.h"
 #include "mem_layout.h"
 
+//TODO, 控制光标位置，并允许在光标位置插入数据
+
 //帧缓冲区头数据结构
 typedef struct frm_buf_h_t
 {
@@ -57,6 +59,24 @@ void putc_screen(const char c){
     }
     screen_header->frm_buf_change = 1;
 
+    __sync_synchronize(); // 确保写成功后才能进行后面的操作
+    screen_header->frm_buf_lock = 0;
+
+}
+
+void del_char()
+{
+    FrameBufferH* screen_header = (FrameBufferH*)(SCR_BASE);
+    uint8_t* screen_frm_buf_base = (uint8_t*)((SCR_BASE) + sizeof(FrameBufferH));
+    screen_header->frm_buf_lock = 1;
+    __sync_synchronize(); // 确保写成功后才能进行后面的操作
+    if (screen_header->frm_data_num > 0)
+    {
+        uint8_t* frm_buf_end = screen_frm_buf_base + screen_header->frm_data_num - 1;
+        *frm_buf_end = 0;
+        screen_header->frm_data_num -=1;
+    }
+    screen_header->frm_buf_change = 1;
     __sync_synchronize(); // 确保写成功后才能进行后面的操作
     screen_header->frm_buf_lock = 0;
 

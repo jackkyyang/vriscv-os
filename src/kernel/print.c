@@ -124,6 +124,10 @@ void printf(const char *fmt, ...)
   vprintf(1, fmt, ap);
 }
 
+void backspace()
+{
+  del_char();
+}
 
 void
 panic(char *s)

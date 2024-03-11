@@ -29,5 +29,6 @@ SOFTWARE.
 #include "typedef.h"
 
 void putc_screen(const char s);
+void del_char();
 
 #endif // __SCREEN_H__

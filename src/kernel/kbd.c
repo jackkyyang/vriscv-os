@@ -26,7 +26,7 @@ SOFTWARE.
 #include "mem_layout.h"
 #include "kbd.h"
 #include "print.h"
-
+#include "../ext/gdkkeysyms.h"
 
 // 硬件约定好的数据结构
 // 来自VRiscV
@@ -41,6 +41,30 @@ typedef struct kbd_buf_h_t
 
 // 键盘初始化
 void kbd_init(){}
+
+// 按键处理
+void inline kbd_press_proc(uint32_t key){
+    char tmp_str [2];
+    tmp_str[1] = (char)0;
+    if (key >= GDK_KEY_space && key <= GDK_KEY_asciitilde)
+    {
+        //打印字符
+        tmp_str[0] = (char)key;
+        printf("%s",tmp_str);
+    }
+    else if (key == GDK_KEY_Return) // 处理回车
+    {
+        printf("\n");
+    }
+    else if (key == GDK_KEY_BackSpace) // 处理后退键
+    {
+        backspace();
+    }
+
+
+
+}
+
 
 // 处理键盘中断
 // trap 入口已经保存上下文，这里只需要处理
@@ -61,7 +85,7 @@ void kbd_int_proc(){
     // 处理缓冲区内容
     for (uint32_t i = 0; i < kbd_data_num; i++)
     {
-        printf("Press [%d] key: [0x%x]\n",i,kbd_data_buf[i]);
+        kbd_press_proc(kbd_data_buf[i]);
     }
 
     __sync_synchronize();

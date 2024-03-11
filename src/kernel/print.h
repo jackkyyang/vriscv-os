@@ -28,5 +28,6 @@ SOFTWARE.
 
 void  panic(char*) __attribute__((noreturn));
 void  printf(const char*,...);
+void  backspace();
 
 #endif // __PRINT_H__
